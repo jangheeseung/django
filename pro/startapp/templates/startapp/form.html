@@ -1,0 +1,36 @@
+{% extends "startapp/layout.html" %}
+
+{% block title %}
+    게시글 작성하기
+{% endblock %}
+
+{% block content %}
+    <form method="post" action="/createBoard">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="exampleFormControlInput1">작성자 이름</label>
+            <input
+                type="text"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder="Insert name"
+                name="author"></div>
+            <div class="form-group">
+                <label for="exampleFormControlInput2">제목</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="exampleFormControlInput2"
+                    placeholder="Insert title"
+                    name="title"></div>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">내용</label>
+                    <textarea
+                        class="form-control"
+                        id="exampleFormControlTextarea1"
+                        rows="3"
+                        name="content"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        {% endblock %}
