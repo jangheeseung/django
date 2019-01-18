@@ -11,8 +11,10 @@ def post_list(request):
    context = {'posts': posts} 
    return render(request,'startapp/list.html',context)   
 
-def post_create_view(request):                
-   return render(request,'startapp/form.html')    #/form.html,/create
+def post_create_view(request):
+   url = "/createBoard"
+   context = {'url': url}                
+   return render(request,'startapp/form.html',context)    #/form.html,/create
 
 def post_create(request):
    title= request.POST.get("title")
@@ -20,4 +22,32 @@ def post_create(request):
    author=request.POST.get("author")
    post=Post(title=title,content=content,author=author)
    post.save()
-   return redirect('http://127.0.0.1:8000/')
+   return HttpResponseRedirect("/")
+
+def post_update_view(request, post_id):
+   post = Post.objects.get(pk = post_id)
+   url = "/updateBoard"
+   context = {'post': post, 'url': url}
+   return render(request, 'startapp/form.html', context)
+
+def post_view(request,post_id):
+   post = Post.objects.get(pk = post_id)  
+   context = {'post': post} 
+   return render(request, 'startapp/show.html', context)
+
+def post_update(request):
+   post_id = request.POST.get("post_id")
+   title = request.POST.get("title")
+   content = request.POST.get("content")
+   post = Post.objects.get(pk = post_id)
+   post.title = title
+   post.content = content
+   post.save()
+   return HttpResponseRedirect("/")
+
+def post_delete(request,post_id):
+   post = Post.objects.get(pk = post_id)
+   post.delete()
+   return HttpResponseRedirect("/")
+    
+

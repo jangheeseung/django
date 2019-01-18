@@ -5,16 +5,21 @@
 {% endblock %}
 
 {% block content %}
-    <form method="post" action="/createBoard">
+    <form method="post" action="{{url}}">
         {% csrf_token %}
         <div class="form-group">
             <label for="exampleFormControlInput1">작성자 이름</label>
-            <input
-                type="text"
-                class="form-control"
-                id="exampleFormControlInput1"
-                placeholder="Insert name"
-                name="author"></div>
+            {% if post %}
+                <h3>{{post.author}}</h3>
+                <input type="hidden" name="post_id" value="{{post.id}}">
+            {% else %}
+                <input
+                    type="text"
+                    class="form-control"
+                    id="exampleFormControlInput1"
+                    placeholder="Insert name"
+                    name="author">
+            {%endif%}</div>
             <div class="form-group">
                 <label for="exampleFormControlInput2">제목</label>
                 <input
@@ -22,15 +27,19 @@
                     class="form-control"
                     id="exampleFormControlInput2"
                     placeholder="Insert title"
-                    name="title"></div>
-                <div class="form-group">
-                    <label for="exampleFormControlTextarea1">내용</label>
-                    <textarea
-                        class="form-control"
-                        id="exampleFormControlTextarea1"
-                        rows="3"
-                        name="content"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        {% endblock %}
+                    name="title"
+                 {% if post %}
+                    value="{{post.title}}"
+                 {% endif %}></div>
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">내용</label>
+                <textarea
+                    class="form-control"
+                    id="exampleFormControlTextarea1"
+                    rows="3"
+                    name="content">{% if post %}{{post.content}}{% endif %} 
+                </textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    {% endblock %}
